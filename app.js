@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -20,6 +21,25 @@ const questionsRouter = require('./routes/questionsRouter');
 const participantsRouter = require('./routes/participantsRouter');
 
 var app = express();
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+ console.log(process.env.REACT_APP_SECRET_KEY);
+
+// ... other app.use middleware 
+app.use(express.static(path.join(__dirname, "client", "build")))
+
+// ...
+// Right before your app.listen(), add this:
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
+
+
+
 
 
 app.use(Cors());
