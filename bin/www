@@ -24,9 +24,9 @@ var server = http.createServer(app);
 
 const io = new Server(server, { 
   /* options */
-  cors: {
+  /*cors: {
       origin: "/"
-    }
+    }*/
 });
 
 
