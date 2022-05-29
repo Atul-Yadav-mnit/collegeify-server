@@ -31,11 +31,6 @@ var app = express();
 // ... other app.use middleware 
 app.use(express.static(path.join(__dirname, "client", "build")))
 
-// ...
-// Right before your app.listen(), add this:
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
 
 
 
@@ -72,11 +67,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/questions',questionsRouter)
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/societies',societiesRouter);
+app.use('/societiess',societiesRouter);
 app.use('/events',eventsRouter);
 app.use('/caraousels',caraouselsRouter)
 app.use('/members',membersRouter)
 app.use('/participants',participantsRouter)
+
+// ...
+// Right before your app.listen(), add this:
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -93,5 +94,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

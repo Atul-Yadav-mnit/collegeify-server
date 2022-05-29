@@ -26,7 +26,7 @@ export const QuestionsFailed = (err) => {
 export const FetchQuestions = (eid) => (dispatch) => {
     
         dispatch(QuestionsLoading());
-        axios.get('http://localhost:8000/questions/events/'+eid)
+        axios.get('/questions/events/'+eid)
         .then((response) => {
            // console.log("Questions is "+response)
             const qs = response.data.filter((res) => res.answer=='')
@@ -41,7 +41,7 @@ export const FetchQuestions = (eid) => (dispatch) => {
 export const AnswerQuestion = (eid,qid,ans,token) => (dispatch) => {
     
     dispatch(QuestionsLoading());
-    axios.put('http://localhost:8000/questions/question/'+qid,{
+    axios.put('/questions/question/'+qid,{
         answer : ans
     },{
         headers: {

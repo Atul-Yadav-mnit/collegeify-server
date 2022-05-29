@@ -12,7 +12,7 @@ export const SigninginUserLoading = () => {
 export const SigninUserSuccess = (user) => {
 
     
-let socket = io("http://localhost:8000") 
+let socket = io("http://localhost:8000/") 
 
     socket.on('connect',() => {
         //alert("Hurray Connected");
@@ -46,7 +46,7 @@ export const SigninUserFailed = (err) => {
 
 export const loginUser = (id, password) => (dispatch) => {
     dispatch(SigninginUserLoading())
-    axios.post('http://localhost:8000/users/login', {
+    axios.post('/users/login', {
         student_id: id,
         password: password
     })
@@ -117,7 +117,7 @@ export const SignupUserFailed = (err) => {
 
 export const signupUser = (name, id, password) => (dispatch) => {
     dispatch(SignupUserLoading())
-    axios.post('http://localhost:8000/users/signup', {
+    axios.post('/users/signup', {
         name: name,
         student_id: id,
         password: password
@@ -173,7 +173,7 @@ export const ParticipantUserFailed = () => {
 
 export const AddParticipantUser = (id, eid, token, name) => (dispatch) => {
     dispatch(ParticipantUserLoading())
-    axios.post('http://localhost:8000/participants/user', {
+    axios.post('/participants/user', {
         uid: id,
         eid: eid
     }, {
@@ -214,7 +214,7 @@ export const QuestionUserFailed = () => {
 
 export const AddQuestionUser = (uid, eid, token, ques) => (dispatch) => {
     dispatch(QuestionUserLoading())
-    axios.post('http://localhost:8000/questions/user/' + uid, {
+    axios.post('/questions/user/' + uid, {
         uid: uid,
         eid: eid,
         question: ques
@@ -277,7 +277,7 @@ export const EditProfile = (twitter,facebook,instagram,linkedin,token,uid) => (d
     {
         body.linkedin = linkedin
     }
-    axios.put('http://localhost:8000/users/user/',body,{
+    axios.put('/users/user/',body,{
         headers: {
             'Authorization': 'Bearer ' + token
         }

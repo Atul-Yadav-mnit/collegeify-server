@@ -24,7 +24,7 @@ export const EventsFailed = (err) => {
 
 export const FetchEvents = (sid) => (dispatch) => {
     dispatch(EventsLoading());
-    axios.get('http://localhost:8000/events/society/' + sid)
+    axios.get('/events/society/' + sid)
         .then((response) => {
             const eves = response.data.map((eve) => {
                 return ({
@@ -70,7 +70,7 @@ export const EventFailed = (err) => {
 
 export const FetchEvent = (eid) => (dispatch) => {
     dispatch(EventLoading());
-    axios.get('http://localhost:8000/events/event/' + eid)
+    axios.get('/events/event/' + eid)
         .then((response) => {
             const eve = response.data;
             const ansques = eve.questions.filter((q) => q.answer != '');
@@ -139,7 +139,7 @@ export const AddEvent = (event_name ,event_location,manager1,manager2,date_of_ev
         description:description
     }
 
-    axios.post('http://localhost:8000/events/society/'+sid, body, {
+    axios.post('/events/society/'+sid, body, {
         headers: {
             'Authorization': 'Bearer ' + token
         }

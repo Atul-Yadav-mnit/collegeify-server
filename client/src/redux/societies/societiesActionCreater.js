@@ -24,7 +24,7 @@ export const SocietiesFailed = (err) => {
 
 export const FetchSocieties = () => (dispatch) => {
     dispatch(SocietiesLoading())
-    axios('http://localhost:8000/societies')
+    axios('/societiess')
         .then((response) => {
             // console.log(response.data)
             // alert("Hi")
@@ -59,7 +59,7 @@ export const SocietyFailed = (err) => {
 
 export const FetchSociety = (sid) => (dispatch) => {
     dispatch(SocietyLoading());
-    axios(`http://localhost:8000/societies/${sid}`)
+    axios(`/societiess/${sid}`)
         .then((response) => {
             dispatch(SocietySuccess(response.data))
         })

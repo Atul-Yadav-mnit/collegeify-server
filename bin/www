@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('collegeify-server:server');
 var http = require('http');
+var Server = require('socket.io').Server;
 /**
  * Get port from environment and store in Express.
  */
@@ -19,6 +20,44 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+
+const io = new Server(server, { 
+  /* options */
+  cors: {
+      origin: "http://localhost:3000"
+    }
+});
+
+
+io.on("connection", (socket) => {
+// ...
+console.log(socket.id)
+
+
+socket.on('message',payload => {
+  console.log(payload)
+  // io.emit('message',payload)
+  io.to(payload.room).emit('message',payload)
+})
+
+
+socket.on('join-room', (payload) => {
+  socket.join(payload.room);
+  console.log(payload)
+  socket.emit('join-room',payload)
+  // const payload = {
+  //   "data": user+" joined the room :)",
+  //   "sender": "Admin",
+  //   "time": "11:01 AM",
+  //   "date": "14-01-22",
+  //   "room": room
+  // }
+  // console.log(payload)
+  // io.to(room).emit('message',payload)
+} )
+
+});
 
 
 server.listen(port);
@@ -84,3 +123,54 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
