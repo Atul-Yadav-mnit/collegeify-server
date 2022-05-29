@@ -25,7 +25,7 @@ export const CaraouselsFailed = (err) => {
 
 export const FetchCaraousels = () => (dispatch) => {
         dispatch(CaraouselsLoading())
-        axios('http://localhost:8000/caraousels')
+        axios('https://collegeify.herokuapp.com/caraousels')
         .then((response) => {
             // console.log(response.data)
             // alert("Hi")
