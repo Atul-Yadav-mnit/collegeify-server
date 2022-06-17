@@ -8,15 +8,15 @@ https://collegeify.herokuapp.com
 ## About Collegeify
 
 #### The Problem 🤔
-* Every college have numerous societies/clubs as these provide a great platform which help students to engage in different activities and help them to further hone their skills through vigorous participation in various creative fields of their interest.   <br>
-* Currently many colleges manages and operates these societies and passes information using emails. There is a space for a dedicated platform to revolutionize the way a college manages its numerous societies/clubs. <br>
-* Collegeify acts as a one stop solution for all the college society/clubs to do all of their day to day activities digitally. <br><br>
+* Every college has numerous societies/clubs as these provide a great platform that helps students to engage in different activities and help them to further hone their skills through vigorous participation in various creative fields of their interest.   <br>
+* Currently many colleges manage and operate these societies and pass information using emails. There is a space for a dedicated platform to revolutionize the way a college manages its numerous societies/clubs. <br>
+* Collegeify acts as a one-stop solution for all the college society/clubs to do all of their day-to-day activities digitally. <br><br>
 
 #### The Solution 😃
-* Collegeify provides all societies/club a common platform to connect students with the societies/club and manage their day to day operations and passing information to students. <br>
-* It is basically an college society management webapp, which helps various college societies/clubs to recruit, organize events, post updates, interact with members and lot more. <br>
+* Collegeify provides all societies/clubs a common platform to connect students with the societies/club and manage their day-to-day operations and pass information to students. <br>
+* It is basically a college society management web app, which helps various college societies/clubs to recruit, organize events, post updates, interact with members, and a lot more. <br>
 * Students can also post queries regarding upcoming events to get updates from respective event managers. Society members can chat in their society chat groups to discuss for various events and activities. <br>
-* We will see all functionality in detail below in the raadme. <br><br><br>
+* We will see all functionality in detail below in the collegeify use cases. <br><br><br>
 
 ## Tech Stack
 #### FrontEnd   : ReactJs, React Redux (for application stage management)
@@ -28,7 +28,7 @@ https://collegeify.herokuapp.com
 
 ## Collegeify Use Cases
 
-* Home Page will show us the caraousels displaying the some of the upcoming important events. <br>
+* Home Page will show us the carousels displaying the some of the upcoming important events. <br>
 
  ![1_Home page](https://user-images.githubusercontent.com/68809688/174294937-868f255a-9e0e-4e21-ad19-8ed07bb4b1c9.png)
 
@@ -64,7 +64,7 @@ https://collegeify.herokuapp.com
 
 ![1_Login paGE](https://user-images.githubusercontent.com/68809688/174298722-5688ff13-753c-414e-9bdf-a21ca3a2389b.png)
 
-* Once logged in user can check their list of applied events on the profile page section.
+* Once logged in, user can check their list of applied events on the profile page section.
 
 ![2_Profile Page](https://user-images.githubusercontent.com/68809688/174299477-b0a42bae-dbaa-4850-838f-54be16b98c19.png)
 
@@ -84,7 +84,7 @@ https://collegeify.herokuapp.com
 
 ![Event Post Page](https://user-images.githubusercontent.com/68809688/174300441-6a640aaa-37f7-4a7d-895c-2cbe87cbb8e1.png)
 
-* Logged in users ( if eligible ) will have an option to make a one click apply.
+* Logged-in users ( if eligible ) will have an option to make a one click apply.
 
 ![1_Society Event one click Apply](https://user-images.githubusercontent.com/68809688/174300990-dbbbce3d-e8ec-4ba6-b1f1-720b4cb6e09b.png)
 
