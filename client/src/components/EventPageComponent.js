@@ -117,10 +117,10 @@ const EventPageComponent = ({ sid, eid }) => {
                   </p>
                   <ul>
                     <li>
-                      <i className="bi bi-check sec-head"></i> Apply Before: {event.payload.applyBefore}
+                      <i className="bi bi-check sec-head"></i> Apply Before: {event.payload.applyBefore.toString().substring(0,10)}
                     </li>
                     <li>
-                      <i className="bi bi-check sec-head"></i> Event Date: {event.payload.eventDate}
+                      <i className="bi bi-check sec-head"></i> Event Date: {event.payload.eventDate.toString().substring(0,10)}
                     </li>
                     <li>
                       <i className="bi bi-check sec-head"></i> Event Loaction: {event.payload.eventLocation}

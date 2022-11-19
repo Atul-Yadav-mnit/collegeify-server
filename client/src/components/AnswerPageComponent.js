@@ -103,7 +103,7 @@ const AnswerPageComponent = ({ eid, sid }) => {
     else
     {
         display = <div>
-            Ummmm
+            No Question to answer at present!
         </div>
     }
 

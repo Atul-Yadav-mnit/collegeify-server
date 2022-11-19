@@ -4,7 +4,8 @@ import {
     , QUESTION_USER_LOADING,
     EDIT_USER_LOADING,
     EDIT_USER_FAILURE,
-    EDIT_USER_SUCCESS
+    EDIT_USER_SUCCESS,
+    REFRESH_USER
 } from './usersActionTypes'
 
 
@@ -12,7 +13,7 @@ const initialState = {
     isLoading: false,
     err: "",
     payload: {
-        type: "",
+        type: "login",
         _id: "",
         student_id: "",
         password: "",
@@ -37,17 +38,19 @@ export const UsersReducer = (state = initialState, action) => {
         case LOGIN_USERS_LOADING:
             return { ...state, isLoading: true, payload: { ...state.payload, type: "login" } }
         case LOGIN_USERS_FAILURE:
-            return { ...state, isLoading: false, err: action.payload, payload: { ...state.payload, type: "" } }
+            return { ...state, isLoading: false, err: action.payload, payload: { ...state.payload, type: "login" } }
         case LOGIN_USERS_SUCCESS:
             action.payload.editProfile = {isLoading:false,err:''};
             return { ...state, isLoading: false, err: "", payload: action.payload }
         case SIGNUP_USERS_LOADING:
             return { ...state, isLoading: true, payload: { ...state.payload, type: "signup" } }
         case SIGNUP_USERS_FAILURE:
-            return { ...state, isLoading: false, err: action.payload, payload: { ...state.payload, type: "", message: "" } }
+            return { ...state, isLoading: false, err: action.payload, payload: { ...state.payload, type: "signup", message: "" } }
         case SIGNUP_USERS_SUCCESS:
             return { ...state, isLoading: false, err: "", payload: { ...state.payload, message: "Sign Up successful,Now Login..." } }
         case LOGOUT_USER:
+            return { ...initialState }
+        case REFRESH_USER:
             return { ...initialState }
         case PARTICIPANT_USER_LOADING:
             return { ...state, payload:{...state.payload,participant:{...state.payload.participant,isLoading:true}} }

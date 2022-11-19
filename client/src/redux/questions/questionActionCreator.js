@@ -1,6 +1,7 @@
 import { QUESTIONS_FAILED, QUESTIONS_LOADING, QUESTIONS_SUCCESS } from "./questionActionTypes"
 import axios from 'axios'
 import { questions } from "./question"
+import { showToast } from "../../components/showToastComponent"
 
 
 export const QuestionsLoading = () => {
@@ -33,6 +34,7 @@ export const FetchQuestions = (eid) => (dispatch) => {
             dispatch(QuestionsSuccess(qs))
         })
         .catch((err) => {
+            showToast('error','Network error!')
             dispatch(QuestionsFailed(err.message))
         })
 }
@@ -49,10 +51,14 @@ export const AnswerQuestion = (eid,qid,ans,token) => (dispatch) => {
         }
     })
     .then((response) => {
-        alert("Answer Submitted successfully")
+        // alert("MmY")
+        // console.log(response)
+        // alert("Answer Submitted successfully")
+        showToast('success','Answer Submitted successfully!')
         dispatch(FetchQuestions(eid))
     })
     .catch((err) => {
+        showToast('error',`Network error!`)
         dispatch(QuestionsFailed(err.message))
     })
 } 

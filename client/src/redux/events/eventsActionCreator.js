@@ -1,4 +1,5 @@
 import axios from "axios"
+import { showToast } from "../../components/showToastComponent"
 import { EVENTS_FAILED, EVENTS_LOADING, EVENTS_SUCCESS, EVENT_FAILED, EVENT_LOADING, EVENT_SUCCESS, POST_EVENT_FAILED, POST_EVENT_LOADING, POST_EVENT_SUCCESS } from "./eventsActionTypes"
 
 
@@ -98,7 +99,10 @@ export const FetchEvent = (eid) => (dispatch) => {
             //console.log(event)
             dispatch(EventSuccess(event))
         })
-        .catch((err) => dispatch(EventFailed(err.message)))
+        .catch((err) => {
+            showToast('error','Network Error!')
+            dispatch(EventFailed(err.message))
+        })
 
 
 }
@@ -130,7 +134,7 @@ export const AddEvent = (event_name ,event_location,manager1,manager2,date_of_ev
         name: event_name,
         society :sid,
         applyBefore : last_date_to_apply,
-        eventDate : date_of_event,
+        eventDate : date_of_event.toString().substring(0,11),
         location : event_location,
         image :"assets/img/portfolio/4.jpg",
         manager1 : manager1,
@@ -147,12 +151,14 @@ export const AddEvent = (event_name ,event_location,manager1,manager2,date_of_ev
     .then((response) => {
         if(response.data._id!='')
         {
-            alert("Event Posted successfully")
+            // alert("Event Posted successfully")
+            showToast('success','Event Posted successfully!')
             dispatch(PostEventSuccess())
         }
     })
     .catch((err) => {
-        alert(err.message)
+        // alert(err.message)
+        showToast('error','Network Error!')
         dispatch(PostEventFailed())
     })
 }

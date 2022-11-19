@@ -28,9 +28,11 @@ questionsRouter.route('/question/:qid')
         Questions.find({_id : req.params.qid})
             .then((ques) => {
                 console.log("Hello1")
-                Events.findOne({ eid: ques[0].eid })
+                Events.findOne({ _id: ques[0].eid })
                     .then((event) => {
-                        console.log("Hello2"+event.manager1+" "+event.manager2+" "+ req.user.student_id)
+                        // console.log(event)
+                        // console.log("Hello2"+event.manager1+" "+event.manager2+" "+ req.user.student_id)
+                        // console.log(ques)
                         if (event && (event.manager1 == req.user.student_id || event.manager2 == req.user.student_id)) {
                             req.body.answerd_by = req.user.student_id
                             Questions.findByIdAndUpdate(req.params.qid, {
@@ -44,8 +46,8 @@ questionsRouter.route('/question/:qid')
                                 .catch((err) => next(err))
                         }
                         else {
-                            res, statusCode = 403,
-                                res.end("You are not authorized to answer this question")
+                            res.statusCode = 403,
+                            res.end("You are not authorized to answer this question")
                         }
                     })
                     .catch((err) => next(err))

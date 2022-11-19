@@ -48,15 +48,18 @@ eventsRouter.route('/')
 
 eventsRouter.route('/society/:sid')
     .all((req,res,next) => {
-        console.log(req)
+        // console.log(req)
         next()
     })
     .get((req, res, next) => {
+        
         Events.find({ society: req.params.sid })
             .populate('society')
             .populate('event_manager1')
             .populate('event_manager2')
             .then((events) => {
+                console.log("Hereeeeeee ","in if ")
+                console.log(events)
                 res.setHeader('Content-Type', 'application/json')
                 res.statusCode = 200
                 res.json(events)

@@ -1,40 +1,43 @@
 import axios from "axios"
-import { CARAOUSELS_FAILED,CARAOUSELS_LOADING,CARAOUSELS_SUCCESS} from "./caraouselsActionTypes"
-import {caraouselItems} from '../../shared/caraousel'
+import { CARAOUSELS_FAILED, CARAOUSELS_LOADING, CARAOUSELS_SUCCESS } from "./caraouselsActionTypes"
+import { caraouselItems } from '../../shared/caraousel'
+import { showToast } from "../../components/showToastComponent"
 
 
 export const CaraouselsLoading = () => {
-    return({
+    return ({
         type: CARAOUSELS_LOADING
     })
 }
 
 export const CaraouselsSuccess = (societies) => {
-    return({
+    return ({
         type: CARAOUSELS_SUCCESS,
         payload: societies
     })
 }
 
 export const CaraouselsFailed = (err) => {
-    return({
+    return ({
         type: CARAOUSELS_FAILED,
         payload: err
     })
 }
 
 export const FetchCaraousels = () => (dispatch) => {
-        dispatch(CaraouselsLoading())
-        axios('/caraousels')
+    dispatch(CaraouselsLoading())
+    axios('/caraousels')
         .then((response) => {
             // console.log(response.data)
             // alert("Hi")
             dispatch(CaraouselsSuccess(response.data))
         })
-        .catch((err) => { 
-            alert(err)
-           // console.log(err) 
-        dispatch(CaraouselsFailed(err.message)) } )
-        // dispatch(CaraouselsLoading());
-        // dispatch(CaraouselsSuccess(caraouselItems))
+        .catch((err) => {
+            // alert(err)
+            // console.log(err) 
+            showToast('error', 'Network Error!')
+            dispatch(CaraouselsFailed(err.message))
+        })
+    // dispatch(CaraouselsLoading());
+    // dispatch(CaraouselsSuccess(caraouselItems))
 }

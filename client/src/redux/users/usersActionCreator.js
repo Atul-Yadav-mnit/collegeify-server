@@ -1,6 +1,7 @@
 import axios from "axios"
-import { LOGIN_USERS_FAILURE, LOGIN_USERS_SUCCESS, LOGIN_USERS_LOADING, SIGNUP_USERS_FAILURE, SIGNUP_USERS_LOADING, SIGNUP_USERS_SUCCESS, LOGOUT_USER, PARTICIPANT_USER_LOADING, PARTICIPANT_USER_SUCCESS, PARTICIPANT_USER_FAILURE, QUESTION_USER_LOADING, QUESTION_USER_SUCCESS, QUESTION_USER_FAILURE, EDIT_USER_FAILURE, EDIT_USER_LOADING, EDIT_USER_SUCCESS } from './usersActionTypes'
-import {io} from 'socket.io-client'
+import { LOGIN_USERS_FAILURE, LOGIN_USERS_SUCCESS, LOGIN_USERS_LOADING, SIGNUP_USERS_FAILURE, SIGNUP_USERS_LOADING, SIGNUP_USERS_SUCCESS, LOGOUT_USER, PARTICIPANT_USER_LOADING, PARTICIPANT_USER_SUCCESS, PARTICIPANT_USER_FAILURE, QUESTION_USER_LOADING, QUESTION_USER_SUCCESS, QUESTION_USER_FAILURE, EDIT_USER_FAILURE, EDIT_USER_LOADING, EDIT_USER_SUCCESS, REFRESH_USER } from './usersActionTypes'
+import { io } from 'socket.io-client'
+import { showToast } from '../../components/showToastComponent'
 
 
 export const SigninginUserLoading = () => {
@@ -11,20 +12,20 @@ export const SigninginUserLoading = () => {
 
 export const SigninUserSuccess = (user) => {
 
-    
-let socket = io("http://localhost:8000/") 
 
-    socket.on('connect',() => {
+    let socket = io("http://localhost:8000/")
+
+    socket.on('connect', () => {
         //alert("Hurray Connected");
     })
 
-    user.member.map((m) => { 
-        const payload = {room: m.sid.id,sid:user.student_id};
-        socket.emit('join-room',payload);
+    user.member.map((m) => {
+        const payload = { room: m.sid.id, sid: user.student_id };
+        socket.emit('join-room', payload);
         // return ({room: m.sid.id,sid:user.student_id});
-    } );
+    });
 
-    socket.on('join-room' ,(payload) => {
+    socket.on('join-room', (payload) => {
         //console.log("Joined and ",payload);
     })
 
@@ -58,7 +59,7 @@ export const loginUser = (id, password) => (dispatch) => {
                 _id: response.data.user.self._id,
                 student_id: response.data.user.self.student_id,
                 password: response.data.user.self.password,
-                name: response.data.user.self.password,
+                name: response.data.user.self.name,
                 image: response.data.user.self.image,
                 twitter: response.data.user.self.twitter,
                 facebook: response.data.user.self.facebook,
@@ -72,6 +73,8 @@ export const loginUser = (id, password) => (dispatch) => {
             }
             //console.log("user is")
             //console.log(user)
+
+            showToast('success', 'User signed in successfully!');
             dispatch(SigninUserSuccess(user))
             //alert(response.data.user)
 
@@ -80,14 +83,17 @@ export const loginUser = (id, password) => (dispatch) => {
 
             if (err.response) {
                 if (err.response.status == 401) {
+                    showToast('error', 'Invalid Credentials');
                     dispatch(SigninUserFailed("Invalid Credentials"))
                 }
                 else {
+                    showToast('error', `Internal Server error ", ${err}`);
                     dispatch(SigninUserFailed("Internal Server error ", err))
                 }
 
             }
             else {
+                showToast('error', `${err}`);
                 dispatch(SigninUserFailed(err))
             }
 
@@ -101,10 +107,10 @@ export const SignupUserLoading = () => {
     })
 }
 
-export const SignupUserSuccess = (user) => {
+export const SignupUserSuccess = () => {
     return ({
         type: SIGNUP_USERS_SUCCESS,
-        payload: user
+        
     })
 }
 
@@ -124,20 +130,24 @@ export const signupUser = (name, id, password) => (dispatch) => {
     })
         .then((response) => {
             // //console.log(response)
+            showToast('success', `Signup successfull`);
             dispatch(SignupUserSuccess())
         })
         .catch((err) => {
 
             if (err.response) {
                 if (err.response.status == 500) {
+                    showToast('error', `Duplicate user detected`);
                     dispatch(SignupUserFailed("Duplicate user detected"))
                 }
                 else {
+                    showToast('error', `Internal Server error with status Code : ${err.response.status}`);
                     dispatch(SignupUserFailed("Internal Server error with status Code :", err.response.status))
                 }
 
             }
             else {
+                showToast('error', `${err}`);
                 dispatch(SignupUserFailed(err))
             }
 
@@ -146,8 +156,15 @@ export const signupUser = (name, id, password) => (dispatch) => {
 
 
 export const Logoutuser = () => {
+    showToast('success', `User Logged out!`);
     return ({
         type: LOGOUT_USER
+    })
+}
+
+export const Refreshuser = () => {
+    return ({
+        type: REFRESH_USER
     })
 }
 
@@ -182,10 +199,12 @@ export const AddParticipantUser = (id, eid, token, name) => (dispatch) => {
         }
     })
         .then((response) => {
+            showToast('success', `Application successfully received`);
             dispatch(ParticipantUserSuccess(response.data))
         })
         .catch((err) => {
-            alert(err.message + "\nYour application was not successful :(\nTry again")
+            // alert(err.message + "\nYour application was not successful :(\nTry again")
+            showToast('error', `${err.message} Your application was not successful:( Try again`);
             dispatch(ParticipantUserFailed())
         })
 }
@@ -225,14 +244,15 @@ export const AddQuestionUser = (uid, eid, token, ques) => (dispatch) => {
     })
         .then((response) => {
             //console.log("ooooo", response.data)
-            alert("Posted Successfully:)\nSoon an event manager will answer it ?")
+            showToast('success', `Posted Successfully:) Soon an event manager will answer it.`);
             dispatch(QuestionUserSuccess(response.data))
         })
         .catch((err) => {
-            alert(err.message + "\nYour post was not successful :(\nTry again")
+            // alert(`${err.message} Your post was not successful :(\nTry again`)
+            showToast('error', `${err.message} Your post was not successful :( Try again`);
             dispatch(QuestionUserFailed())
         })
-} 
+}
 
 
 export const EditUserLoading = () => {
@@ -258,45 +278,41 @@ export const EditUserFailed = () => {
 }
 
 
-export const EditProfile = (twitter,facebook,instagram,linkedin,token,uid) => (dispatch) => {
+export const EditProfile = (twitter, facebook, instagram, linkedin, token, uid) => (dispatch) => {
     dispatch(EditUserLoading())
     const body = {}
-    if(twitter!='')
-    {
+    if (twitter != '') {
         body.twitter = twitter
     }
-    if(facebook!='')
-    {
+    if (facebook != '') {
         body.facebook = facebook
     }
-    if(instagram!='')
-    {
+    if (instagram != '') {
         body.instagram = instagram
     }
-    if(linkedin!='')
-    {
+    if (linkedin != '') {
         body.linkedin = linkedin
     }
-    axios.put('/users/user/',body,{
+    axios.put('/users/user/', body, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     })
-    .then((response) => {
-        // alert("Profile Updated, Kindly login again")
-        const body = {
-            twitter:response.data.twitter,
-            instagram:response.data.instagram,
-            facebook:response.data.facebook,
-            linkedin:response.data.linkedin,
-        }
-       
+        .then((response) => {
+            // alert("Profile Updated, Kindly login again")
+            const body = {
+                twitter: response.data.twitter,
+                instagram: response.data.instagram,
+                facebook: response.data.facebook,
+                linkedin: response.data.linkedin,
+            }
+            showToast('success', `Profile updated`);
             dispatch(EditUserSuccess(body))
-       // //console.log(response)
-    })
-    .catch((err) => {
-       //console.log (err)
-        alert("Error: ",err.message)
-        dispatch(EditUserFailed())
-    })
+            // //console.log(response)
+        })
+        .catch((err) => {
+            //console.log (err)
+            showToast('success', `Profile update failed`);
+            dispatch(EditUserFailed())
+        })
 }

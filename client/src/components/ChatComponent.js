@@ -1,15 +1,22 @@
 import React,{useState,useEffect} from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { Row,Col,Input,Button,Form} from 'reactstrap'
+import { showToast } from './showToastComponent'
 
 function ChatComponent() {
     const user = useSelector(state => state.user)
     const history = useHistory()
     let initialState = 0;
-    if(user.payload._id!='' && user.payload.member[0].sid._id)
+    if(user.payload._id!='' && user.payload.member.length>0 && user.payload.member[0].sid._id)
     {
         initialState = user.payload.member[0].sid._id;
+    }
+    else
+    {
+        showToast('error','You need to be part of atleast one society to enter chats :(')
+        history.push('/home')
     }
     const [curRoom, setcurRoom] = useState(initialState)
     const [messages, setmessages] = useState([])

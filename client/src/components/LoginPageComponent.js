@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect, useHistory } from 'react-router-dom'
 import { Input, Form, Button, UncontrolledCarousel } from 'reactstrap'
-import { loginUser, Logoutuser, signupUser } from '../redux/users/usersActionCreator'
+import { loginUser, Logoutuser, Refreshuser, signupUser } from '../redux/users/usersActionCreator'
 import { Loading } from './LoadingComponent'
+import { showToast } from './showToastComponent'
 
 
 
@@ -17,6 +18,8 @@ function LoginPageComponent() {
         id: "",
         password: ""
     })
+
+   
 
     const [signupForm, setsignupForm] = useState({
         name: "",
@@ -32,7 +35,7 @@ function LoginPageComponent() {
             [name]: target.value
         });
     }
-
+    
     const handleLoginChange = (event) => {
         const target = event.target;
         const name = target.name;
@@ -81,13 +84,13 @@ function LoginPageComponent() {
             loginbtn = <Loading />
         }
         else if (user.err != '') {
-            alert(user.err)
-            dispatch(Logoutuser());
+            // alert(user.err)
+            dispatch(Refreshuser());
             loginbtn = <Button style={{ backgroundColor: "#3ec1d5" }} className='btn btn-4'>Submit</Button>;
         }
         else if (user.payload._id != "") {
          //   alert("mmmmmmmmmmmmmmmmmmmmmmm")
-            alert(user.payload.message)
+            // alert(user.payload.message)
             history.push('/home')
             loginbtn = <Button style={{ backgroundColor: "#3ec1d5" }} className='btn btn-4'>Submit</Button>;
         }
@@ -100,14 +103,14 @@ function LoginPageComponent() {
             signupbtn = <Loading />
         }
         else if (user.err != '') {
-            alert(user.err)
-            dispatch(Logoutuser());
+            // alert(user.err)
+            dispatch(Refreshuser());
             history.push('/login')
             signupbtn = <Button style={{ backgroundColor: "#3ec1d5" }} className='btn btn-4'>Submit</Button>;
         }
         else if (user.payload.message != "") {
-            alert(user.payload.message)
-            dispatch(Logoutuser());
+            // alert(user.payload.message)
+            dispatch(Refreshuser());
             history.push('/login')
             signupbtn = <Redirect to="/login" />;
         }
